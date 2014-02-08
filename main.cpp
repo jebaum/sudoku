@@ -10,8 +10,12 @@ using namespace std;
 int main(int argc, char** argv)
 {
     float sleep_interval = 0;
-    if (argc == 2)
-        sleep_interval = atof(argv[1]);
+    int initial_delay = 1;
+    if (argc > 1)
+        initial_delay = atoi(argv[1]);
+    if (argc > 2)
+        sleep_interval = atof(argv[2]);
+
 
     int game1[9][9] =  {
         {6, 0, 0,  1, 0, 8,  2, 0, 3},
@@ -29,7 +33,7 @@ int main(int argc, char** argv)
 
     SudokuBoard* myboard = new SudokuBoard(game1);
     myboard->printBoard();
-    sleep(2); // TODO: make this optional?
+    sleep(initial_delay);
 
     if (myboard->isDone())
         cout << "board is filled in\n";
