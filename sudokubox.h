@@ -8,13 +8,21 @@ class SudokuBox
     public:
         SudokuBox();
         bool eliminate();
-        unsigned char getValue() const;
-        void setValue(const unsigned char val);
+        bool eliminateRow();
+        bool eliminateColumn();
+        bool eliminateSquare();
+        int getValue() const;
+        char getPrintableValue() const;
+        void setValue(const int val);
+        void setupBox(SudokuBoard* gameboard, int r, int c);
+        void printPossibleValues();
 
     private:
-        SudokuBoard*  board;
-        unsigned char possible_values[10];
-        unsigned char val;
+        SudokuBoard* board;
+        int possible_value[10];
+        int r;
+        int c;
+        int val;
 };
 
 #endif  // SUDOKUBOX_H

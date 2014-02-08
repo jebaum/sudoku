@@ -1,22 +1,154 @@
 #include <iostream>
+#include "sudokuboard.h"
 #include "sudokubox.h"
 
+using namespace std;
 
 SudokuBox::SudokuBox()
  : val(0)
 {
     for (int i=0; i<10; ++i)
-        possible_values[i] = 1;
+        possible_value[i] = 1;
 }
 
-unsigned char SudokuBox::getValue() const
+bool SudokuBox::eliminate()
+{
+    // if this box's final value is already set, no need to run function, and we've gained no new info
+    bool didsomething = false;
+    cout << "i am " << this << " and my val is " << val << endl;
+    if (val) return didsomething;
+
+    printPossibleValues();
+    didsomething = eliminateRow();
+    didsomething = eliminateColumn();
+    didsomething = eliminateSquare();
+
+    // see if we're down to one possible value
+    int count = 0;
+    int maybeval;
+    for (int i=1; i < 10; ++i)
+    {
+        if (possible_value[i])
+        {
+            ++count;
+            maybeval = i;
+        }
+    }
+
+    if (count == 1) // only one possible value left
+    {
+        val = maybeval;
+        didsomething = true;
+    }
+    else if (count == 0)
+    {
+        cerr << "no possible values, something's wrong\n";
+        return false;
+    }
+    cout << "my val is " << val << endl;
+    return didsomething;
+}
+
+bool SudokuBox::eliminateRow()
+{
+    bool didsomething = false;
+    for (int i=0; i<9; ++i)
+    {
+        if (i == c)
+            continue; // don't compare against self
+
+        int temp = board->getBox(r, i).getValue();
+        if (temp != 0 && possible_value[temp])
+        {
+            possible_value[temp] = 0;
+            didsomething = true;
+            cout << "ROW ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+        }
+    }
+    return didsomething;
+}
+
+bool SudokuBox::eliminateColumn()
+{
+    bool didsomething = false;
+    for (int i=0; i<9; ++i)
+    {
+        if (i == r)
+            continue; // don't compare against self
+
+        int temp = board->getBox(i, c).getValue();
+        if (temp != 0 && possible_value[temp])
+        {
+            possible_value[temp] = 0;
+            didsomething = true;
+            cout << "COL ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+        }
+    }
+
+    return didsomething;
+}
+
+bool SudokuBox::eliminateSquare()
+{
+    bool didsomething = false;
+    int r_upper_left = r - r % 3;
+    int c_upper_left = c - c % 3;
+    for (int i = r_upper_left; i < r_upper_left + 3; ++i)
+    {
+        for (int j = c_upper_left; j < c_upper_left + 3; ++j)
+        {
+            if (i == r && j == c) // don't compare against self
+                continue;
+
+            int temp = board->getBox(i, j).getValue();
+            if (temp != 0 && possible_value[temp])
+            {
+                possible_value[temp] = 0;
+                didsomething = true;
+            cout << "SQU ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+            }
+        }
+    }
+    return didsomething;
+}
+
+int SudokuBox::getValue() const
+{
+    return val;
+}
+
+char SudokuBox::getPrintableValue() const
 {
     return (val ? val + '0' : ' ');
 }
 
-void SudokuBox::setValue(const unsigned char value)
+void SudokuBox::setValue(const int value)
 {
     if (value < 1 || value > 9)
-        std::cerr << "invalid value\n";
+        cerr << "invalid value\n";
     val = value;
 }
+
+void SudokuBox::setupBox(SudokuBoard* gameboard, int row, int col)
+{
+    board = gameboard;
+    r = row;
+    c = col;
+}
+
+void SudokuBox::printPossibleValues()
+{
+    cout << "(" << (int)r << "," << (int)c << "): ";
+    for (int i=1; i<10; ++i)
+    {
+        if (possible_value[i] != 0)
+            cout << i << " ";
+    }
+    cout << endl;
+}
+
+/*
+    for eliminate: eliminate things from possible_value if that box's square,row,or column already has a box with that val
+                   if one of the entries in a box's possible_value isn't in any of the other possible_value arrays for its row, set that val to that entry
+                       same for column and square
+*/

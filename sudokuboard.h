@@ -6,7 +6,7 @@ class SudokuBox;
 class SudokuBoard
 {
     public:
-        SudokuBoard();
+        SudokuBoard(int initial[][9]);
         bool isDone() const;
         bool isValid() const;
         void printBoard() const;

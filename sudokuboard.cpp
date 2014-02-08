@@ -4,12 +4,33 @@
 
 using namespace std;
 
-SudokuBoard::SudokuBoard()
+SudokuBoard::SudokuBoard(int initial[][9])
 {
     board = new SudokuBox*[9];
     for (int i=0; i<9; ++i)
         board[i] = new SudokuBox[9];
 
+    for (int i=0; i<9; ++i)
+    {
+        for (int j=0; j<9; ++j)
+        {
+            board[i][j].setupBox(this,i,j);
+            if (initial[i][j] != 0)
+            {
+                board[i][j].setValue(initial[i][j]);
+            }
+        }
+    }
+}
+
+bool SudokuBoard::isDone() const
+{
+    for (int i=0; i<9; ++i)
+        for (int j=0; j<9; ++j)
+            if (!board[i][j].getValue())
+                return false;
+
+    return true;
 }
 
 void SudokuBoard::printBoard() const
@@ -19,14 +40,9 @@ void SudokuBoard::printBoard() const
 
     for (int i=0; i<9; ++i)
     {
+        cout << "    ┃ ";
         for (int j=0; j<9; ++j)
-        {
-            if (j==0)
-                cout << "    ┃ ";
-
-            cout << board[i][j].getValue();
-            cout <<  ((j+1)%3 ? " │ " : " ┃ ");
-        }
+            cout << board[i][j].getPrintableValue() << ((j+1)%3 ? " │ " : " ┃ ");
 
         cout << endl;
         if ((i+1)%3)
@@ -42,5 +58,7 @@ void SudokuBoard::printBoard() const
 
 SudokuBox SudokuBoard::getBox(const int r, const int c) const
 {
+    cout << "returning (" << r << "," << c << ") at location " << &board[r][c] << endl;
     return board[r][c];
 }
+
