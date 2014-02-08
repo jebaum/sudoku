@@ -29,16 +29,6 @@ int main()
     else
         cout << "board is not filled in\n";
 
-    myboard->getBox(1,0).eliminate();
-    cout << endl << endl;
-    myboard->getBox(1,0).eliminate();
-    cout << endl << endl;
-    myboard->getBox(1,0).eliminate();
-
-    return 0;
-
-
-
     int x=0;
     while (x < 3)
     {

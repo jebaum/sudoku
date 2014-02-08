@@ -15,10 +15,8 @@ bool SudokuBox::eliminate()
 {
     // if this box's final value is already set, no need to run function, and we've gained no new info
     bool didsomething = false;
-    cout << "i am " << this << " and my val is " << val << endl;
     if (val) return didsomething;
 
-    printPossibleValues();
     didsomething = eliminateRow();
     didsomething = eliminateColumn();
     didsomething = eliminateSquare();
@@ -45,7 +43,6 @@ bool SudokuBox::eliminate()
         cerr << "no possible values, something's wrong\n";
         return false;
     }
-    cout << "my val is " << val << endl;
     return didsomething;
 }
 
@@ -62,7 +59,7 @@ bool SudokuBox::eliminateRow()
         {
             possible_value[temp] = 0;
             didsomething = true;
-            cout << "ROW ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+            // cerr << "ROW ELIMINATED " << temp << " FOR " << r << "," << c << endl;
         }
     }
     return didsomething;
@@ -81,7 +78,7 @@ bool SudokuBox::eliminateColumn()
         {
             possible_value[temp] = 0;
             didsomething = true;
-            cout << "COL ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+            // cerr << "COL ELIMINATED " << temp << " FOR " << r << "," << c << endl;
         }
     }
 
@@ -100,7 +97,7 @@ bool SudokuBox::eliminateSquare()
             if (i == r && j == c) // don't compare against self
                 continue;
 
-            int temp = board->getBox(i, j).getValue();
+            int temp = board->getBox(i, j)->getValue();
             if (temp != 0 && possible_value[temp])
             {
                 possible_value[temp] = 0;
@@ -138,13 +135,13 @@ void SudokuBox::setupBox(SudokuBoard* gameboard, int row, int col)
 
 void SudokuBox::printPossibleValues()
 {
-    cout << "(" << (int)r << "," << (int)c << "): ";
+    cerr << "(" << r << "," << c << "): ";
     for (int i=1; i<10; ++i)
     {
         if (possible_value[i] != 0)
-            cout << i << " ";
+            cerr << i << " ";
     }
-    cout << endl;
+    cerr << endl;
 }
 
 /*
