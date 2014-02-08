@@ -64,6 +64,16 @@ bool SudokuBoard::isDone() const
     return true;
 }
 
+bool SudokuBoard::isValid() const
+{
+    return true;
+}
+
+SudokuBox* SudokuBoard::getBox(const int r, const int c) const
+{
+    return &board[r][c];
+}
+
 void SudokuBoard::printBoard(int r, int c) const
 {
 
@@ -78,7 +88,11 @@ void SudokuBoard::printBoard(int r, int c) const
             if (i == r && j == c)
                 cout << "\033[1;31m";
 
-            cout << board[i][j].getPrintableValue() << "\033[0m" << ((j+1)%3 ? " │ " : " ┃ ");
+            // TODO clean up this logic
+            char val_to_print = '0' + board[i][j].getValue();
+            if (val_to_print == '0') val_to_print = ' ';
+
+            cout << val_to_print << "\033[0m" << ((j+1)%3 ? " │ " : " ┃ ");
         }
 
         cout << endl;
@@ -96,10 +110,5 @@ void SudokuBoard::printBoard(int r, int c) const
 void SudokuBoard::printBoard() const
 {
     printBoard(-1, -1);
-}
-
-SudokuBox* SudokuBoard::getBox(const int r, const int c) const
-{
-    return &board[r][c];
 }
 

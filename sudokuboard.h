@@ -8,12 +8,18 @@ class SudokuBoard
     public:
         SudokuBoard(int initial[][9]);
         ~SudokuBoard();
+
+        // core logic
         void solve(float sleep_interval = 0);
         bool isDone() const;
         bool isValid() const; // TODO: implement this
+
+        // accessors
+        SudokuBox* getBox(const int r, const int c) const;
+
+        // helpers
         void printBoard(int r, int c) const;
         void printBoard() const;
-        SudokuBox* getBox(const int r, const int c) const;
     private:
         SudokuBox** board;
 };

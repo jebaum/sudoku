@@ -7,15 +7,22 @@ class SudokuBox
 {
     public:
         SudokuBox();
+
+        // core logic
         bool eliminate(float sleep_interval = 0);
         bool eliminateRow();
         bool eliminateColumn();
         bool eliminateSquare();
+
+        // accessors
         int  getValue() const;
-        char getPrintableValue() const;
+
+        // mutators
         void setValue(const int val);
-        void setupBox(SudokuBoard* gameboard, int r, int c);
-        void printPossibleValues();
+        void setupBox(SudokuBoard* gameboard, const int r, const int c);
+
+        // helpers
+        void printPossibleValues() const;
 
     private:
         SudokuBoard* board;

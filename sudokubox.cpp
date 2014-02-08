@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <unistd.h>
 #include <cstdlib>
 #include "sudokuboard.h"
@@ -9,8 +10,7 @@ using namespace std;
 SudokuBox::SudokuBox()
  : val(0)
 {
-    for (int i=0; i<10; ++i)
-        possible_value[i] = 1;
+    memset(possible_value, 1, sizeof(possible_value));
 }
 
 bool SudokuBox::eliminate(float sleep_interval)
@@ -138,11 +138,6 @@ int SudokuBox::getValue() const
     return val;
 }
 
-char SudokuBox::getPrintableValue() const
-{
-    return (val ? val + '0' : ' ');
-}
-
 void SudokuBox::setValue(const int value)
 {
     if (value < 1 || value > 9)
@@ -150,14 +145,14 @@ void SudokuBox::setValue(const int value)
     val = value;
 }
 
-void SudokuBox::setupBox(SudokuBoard* gameboard, int row, int col)
+void SudokuBox::setupBox(SudokuBoard* gameboard, const int row, const int col)
 {
     board = gameboard;
     r = row;
     c = col;
 }
 
-void SudokuBox::printPossibleValues()
+void SudokuBox::printPossibleValues() const
 {
     cerr << "(" << r << "," << c << "): ";
     for (int i=1; i<10; ++i)
