@@ -8,6 +8,7 @@ class SudokuBoard
     public:
         SudokuBoard(int initial[][9]);
         ~SudokuBoard();
+        void solve(float sleep_interval = 0);
         bool isDone() const;
         bool isValid() const; // TODO: implement this
         void printBoard(int r, int c) const;

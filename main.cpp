@@ -16,8 +16,7 @@ int main(int argc, char** argv)
     if (argc > 2)
         sleep_interval = atof(argv[2]);
 
-
-    int game1[9][9] =  {
+    int game1_easy[9][9] =  {
         {6, 0, 0,  1, 0, 8,  2, 0, 3},
         {0, 2, 0,  0, 4, 0,  0, 9, 0},
         {8, 0, 3,  0, 0, 5,  4, 0, 0},
@@ -31,29 +30,35 @@ int main(int argc, char** argv)
         {3, 0, 2,  9, 0, 4,  0, 0, 5},
     };
 
-    SudokuBoard* myboard = new SudokuBoard(game1);
+    SudokuBoard* myboard = new SudokuBoard(game1_easy);
     myboard->printBoard();
     sleep(initial_delay);
-
-    if (myboard->isDone())
-        cout << "board is filled in\n";
-    else
-        cout << "board is not filled in\n";
-
-    int x=0;
-    while (x < 3)
-    {
-        for (int r=0; r<9; ++r)
-        {
-            for (int c=0; c<9; ++c)
-            {
-                myboard->getBox(r, c)->eliminate(sleep_interval);
-            }
-        }
-        ++x;
-    }
-
+    myboard->solve(sleep_interval);
     delete myboard;
+
+    // can't yet actually solve this
+    int game2_hard[9][9] =  {
+        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+        {0, 0, 0,  0, 0, 3,  0, 7, 5},
+        {0, 0, 1,  0, 2, 0,  0, 0, 0},
+
+        {0, 0, 0,  5, 0, 7,  0, 0, 0},
+        {0, 0, 4,  0, 0, 0,  1, 0, 0},
+        {0, 9, 0,  0, 0, 0,  0, 0, 0},
+
+        {5, 0, 0,  0, 0, 0,  0, 7, 3},
+        {0, 0, 2,  0, 1, 0,  0, 0, 0},
+        {0, 0, 0,  0, 4, 0,  0, 0, 9},
+    };
+
+
+    myboard = new SudokuBoard(game2_hard);
+    myboard->printBoard();
+    sleep(initial_delay);
+    myboard->solve(sleep_interval);
+    delete myboard;
+
+
     return 0;
 
 }
