@@ -10,7 +10,7 @@ class SudokuBoard
         bool isDone() const;
         bool isValid() const;
         void printBoard() const;
-        SudokuBox getBox(const int r, const int c) const;
+        SudokuBox* getBox(const int r, const int c) const;
     private:
         SudokuBox** board;
 };

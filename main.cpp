@@ -47,7 +47,7 @@ int main()
         {
             for (int c=0; c<9; ++c)
             {
-                myboard->getBox(r, c).eliminate();
+                myboard->getBox(r, c)->eliminate();
             }
         }
         ++x;

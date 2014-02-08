@@ -56,9 +56,8 @@ void SudokuBoard::printBoard() const
 
 }
 
-SudokuBox SudokuBoard::getBox(const int r, const int c) const
+SudokuBox* SudokuBoard::getBox(const int r, const int c) const
 {
-    cout << "returning (" << r << "," << c << ") at location " << &board[r][c] << endl;
-    return board[r][c];
+    return &board[r][c];
 }
 

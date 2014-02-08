@@ -57,7 +57,7 @@ bool SudokuBox::eliminateRow()
         if (i == c)
             continue; // don't compare against self
 
-        int temp = board->getBox(r, i).getValue();
+        int temp = board->getBox(r, i)->getValue();
         if (temp != 0 && possible_value[temp])
         {
             possible_value[temp] = 0;
@@ -76,7 +76,7 @@ bool SudokuBox::eliminateColumn()
         if (i == r)
             continue; // don't compare against self
 
-        int temp = board->getBox(i, c).getValue();
+        int temp = board->getBox(i, c)->getValue();
         if (temp != 0 && possible_value[temp])
         {
             possible_value[temp] = 0;
@@ -105,7 +105,7 @@ bool SudokuBox::eliminateSquare()
             {
                 possible_value[temp] = 0;
                 didsomething = true;
-            cout << "SQU ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+            // cerr << "SQU ELIMINATED " << temp << " FOR " << r << "," << c << endl;
             }
         }
     }
