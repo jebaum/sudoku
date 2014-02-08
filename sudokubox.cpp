@@ -15,18 +15,18 @@ SudokuBox::SudokuBox()
 
 bool SudokuBox::eliminate(float sleep_interval)
 {
-    bool did_something = false;
+    bool made_progress = false;
 
     // if this box's final value is already set, no need to run function, and we've gained no new info
-    if (val) return did_something;
+    if (val) return made_progress;
 
     // scan row, column, and square and eliminate possible values
     if (eliminateRow())
-        did_something = true;
+        made_progress = true;
     if (eliminateColumn())
-        did_something = true;
+        made_progress = true;
     if (eliminateSquare())
-        did_something = true;
+        made_progress = true;
 
     /* TODO
     if one of the entries in a box's possible_value isn't in any of the other possible_value arrays for its row
@@ -53,7 +53,7 @@ bool SudokuBox::eliminate(float sleep_interval)
     if (remaining_possible_values == 1) // only one possible value left
     {
         val = maybeval;
-        did_something = true;
+        made_progress = true;
         #ifdef WINDOWS
             system ( "CLS" );
         #else
@@ -67,12 +67,12 @@ bool SudokuBox::eliminate(float sleep_interval)
         cerr << "no possible values, something's wrong\n";
         return false;
     }
-    return did_something;
+    return made_progress;
 }
 
 bool SudokuBox::eliminateRow()
 {
-    bool did_something = false;
+    bool made_progress = false;
     for (int i=0; i<9; ++i)
     {
         if (i == c)
@@ -82,16 +82,16 @@ bool SudokuBox::eliminateRow()
         if (temp != 0 && possible_value[temp])
         {
             possible_value[temp] = 0;
-            did_something = true;
+            made_progress = true;
             // cerr << "ROW ELIMINATED " << temp << " FOR " << r << "," << c << endl;
         }
     }
-    return did_something;
+    return made_progress;
 }
 
 bool SudokuBox::eliminateColumn()
 {
-    bool did_something = false;
+    bool made_progress = false;
     for (int i=0; i<9; ++i)
     {
         if (i == r)
@@ -101,17 +101,17 @@ bool SudokuBox::eliminateColumn()
         if (temp != 0 && possible_value[temp])
         {
             possible_value[temp] = 0;
-            did_something = true;
+            made_progress = true;
             // cerr << "COL ELIMINATED " << temp << " FOR " << r << "," << c << endl;
         }
     }
 
-    return did_something;
+    return made_progress;
 }
 
 bool SudokuBox::eliminateSquare()
 {
-    bool did_something = false;
+    bool made_progress = false;
     int r_upper_left = r - r % 3;
     int c_upper_left = c - c % 3;
     for (int i = r_upper_left; i < r_upper_left + 3; ++i)
@@ -125,12 +125,12 @@ bool SudokuBox::eliminateSquare()
             if (temp != 0 && possible_value[temp])
             {
                 possible_value[temp] = 0;
-                did_something = true;
+                made_progress = true;
             // cerr << "SQU ELIMINATED " << temp << " FOR " << r << "," << c << endl;
             }
         }
     }
-    return did_something;
+    return made_progress;
 }
 
 int SudokuBox::getValue() const

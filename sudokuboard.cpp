@@ -33,19 +33,19 @@ SudokuBoard::~SudokuBoard()
 
 void SudokuBoard::solve(float sleep_interval)
 {
-    bool did_something = false;
+    bool made_progress = false;
     while (! isDone())
     {
-        did_something = false;
+        made_progress = false;
         for (int r=0; r<9; ++r)
         {
             for (int c=0; c<9; ++c)
             {
                 if (getBox(r, c)->eliminate(sleep_interval))
-                    did_something = true;
+                    made_progress = true;
             }
         }
-        if (! did_something)
+        if (! made_progress)
         {
             cout << "I can't solve this! giving up...\n";
             break;
