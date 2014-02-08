@@ -11,7 +11,7 @@ class SudokuBox
         bool eliminateRow();
         bool eliminateColumn();
         bool eliminateSquare();
-        int getValue() const;
+        int  getValue() const;
         char getPrintableValue() const;
         void setValue(const int val);
         void setupBox(SudokuBoard* gameboard, int r, int c);

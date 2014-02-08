@@ -19,6 +19,7 @@ bool SudokuBox::eliminate()
     bool didsomething = false;
     if (val) return didsomething;
 
+    // TODO: make sure I don't overwrite a 'didsomething' that's already true
     didsomething = eliminateRow();
     didsomething = eliminateColumn();
     didsomething = eliminateSquare();
