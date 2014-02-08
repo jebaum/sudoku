@@ -10,7 +10,6 @@ class SudokuBoard
         ~SudokuBoard();
 
         // core logic
-        void solve(float sleep_interval = 0);
         bool isDone() const;
         bool isValid() const; // TODO: implement this
 

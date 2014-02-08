@@ -8,17 +8,15 @@ class SudokuBox
     public:
         SudokuBox();
 
-        // core logic
-        bool eliminate(float sleep_interval = 0);
-        bool eliminateRow();
-        bool eliminateColumn();
-        bool eliminateSquare();
-
         // accessors
+        int  getRow() const;
+        int  getColumn() const;
         int  getValue() const;
+        bool getPossibleValue(const int value) const;
 
         // mutators
-        void setValue(const int val);
+        void setValue(const int value);
+        void setPossibleValue(const int value, const bool possible);
         void setupBox(SudokuBoard* gameboard, const int r, const int c);
 
         // helpers
@@ -26,10 +24,10 @@ class SudokuBox
 
     private:
         SudokuBoard* board;
-        int possible_value[10];
         int r;
         int c;
         int val;
+        bool possible_value[10];
 };
 
 #endif  // SUDOKUBOX_H

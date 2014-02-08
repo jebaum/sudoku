@@ -31,29 +31,6 @@ SudokuBoard::~SudokuBoard()
     delete [] board;
 }
 
-void SudokuBoard::solve(float sleep_interval)
-{
-    bool made_progress = false;
-    while (! isDone())
-    {
-        made_progress = false;
-        for (int r=0; r<9; ++r)
-        {
-            for (int c=0; c<9; ++c)
-            {
-                if (getBox(r, c)->eliminate(sleep_interval))
-                    made_progress = true;
-            }
-        }
-        if (! made_progress)
-        {
-            cout << "I can't solve this! giving up...\n";
-            break;
-        }
-    }
-    return;
-}
-
 bool SudokuBoard::isDone() const
 {
     for (int i=0; i<9; ++i)

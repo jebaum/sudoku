@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <cstdlib>
+#include "sudokusolver.h"
 #include "sudokuboard.h"
 #include "sudokubox.h"
 
@@ -31,10 +32,12 @@ int main(int argc, char** argv)
     };
 
     SudokuBoard* myboard = new SudokuBoard(game1_easy);
+    SudokuSolver* solver = new SudokuSolver(myboard);
     myboard->printBoard();
     sleep(initial_delay);
-    myboard->solve(sleep_interval);
+    solver->solve(sleep_interval);
     delete myboard;
+    delete solver;
 
     // can't yet actually solve this
     int game2_hard[9][9] =  {
@@ -53,11 +56,14 @@ int main(int argc, char** argv)
 
 
     myboard = new SudokuBoard(game2_hard);
+    solver  = new SudokuSolver(myboard);
     myboard->printBoard();
     sleep(initial_delay);
-    myboard->solve(sleep_interval);
+    solver->solve(sleep_interval);
     delete myboard;
+    delete solver;
 
+    cout << "sup";
 
     return 0;
 
