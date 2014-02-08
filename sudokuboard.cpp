@@ -33,8 +33,9 @@ bool SudokuBoard::isDone() const
     return true;
 }
 
-void SudokuBoard::printBoard() const
+void SudokuBoard::printBoard(int r, int c) const
 {
+
     cout << endl;
     cout << "    ┏━━━┯━━━┯━━━┳━━━┯━━━┯━━━┳━━━┯━━━┯━━━┓" << endl;
 
@@ -42,7 +43,12 @@ void SudokuBoard::printBoard() const
     {
         cout << "    ┃ ";
         for (int j=0; j<9; ++j)
-            cout << board[i][j].getPrintableValue() << ((j+1)%3 ? " │ " : " ┃ ");
+        {
+            if (i == r && j == c)
+                cout << "\033[1;31m";
+
+            cout << board[i][j].getPrintableValue() << "\033[0m" << ((j+1)%3 ? " │ " : " ┃ ");
+        }
 
         cout << endl;
         if ((i+1)%3)
@@ -54,6 +60,11 @@ void SudokuBoard::printBoard() const
     cout << "    ┗━━━┷━━━┷━━━┻━━━┷━━━┷━━━┻━━━┷━━━┷━━━┛" << endl;
     cout << endl;
 
+}
+
+void SudokuBoard::printBoard() const
+{
+    printBoard(-1, -1);
 }
 
 SudokuBox* SudokuBoard::getBox(const int r, const int c) const

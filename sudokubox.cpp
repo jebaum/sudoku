@@ -1,4 +1,6 @@
 #include <iostream>
+#include <unistd.h>
+#include <cstdlib>
 #include "sudokuboard.h"
 #include "sudokubox.h"
 
@@ -37,6 +39,13 @@ bool SudokuBox::eliminate()
     {
         val = maybeval;
         didsomething = true;
+        #ifdef WINDOWS
+            system ( "CLS" );
+        #else
+            system ("clear");
+        #endif
+        board->printBoard(r, c);
+        usleep(1000 * 1000 * .5); // in microseconds, 1000 * 1000 = 1 second
     }
     else if (count == 0)
     {

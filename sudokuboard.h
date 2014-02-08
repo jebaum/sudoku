@@ -9,6 +9,7 @@ class SudokuBoard
         SudokuBoard(int initial[][9]);
         bool isDone() const;
         bool isValid() const;
+        void printBoard(int r, int c) const;
         void printBoard() const;
         SudokuBox* getBox(const int r, const int c) const;
     private:

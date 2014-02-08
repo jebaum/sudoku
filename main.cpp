@@ -32,7 +32,6 @@ int main()
     int x=0;
     while (x < 3)
     {
-        cout << endl << endl << "BEGINNING ITERATION " << x+1 << endl << endl;
         for (int r=0; r<9; ++r)
         {
             for (int c=0; c<9; ++c)
@@ -43,7 +42,6 @@ int main()
         ++x;
     }
 
-    myboard->printBoard();
     delete myboard;
     return 0;
 
