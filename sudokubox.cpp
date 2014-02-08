@@ -15,31 +15,45 @@ SudokuBox::SudokuBox()
 
 bool SudokuBox::eliminate(float sleep_interval)
 {
-    // if this box's final value is already set, no need to run function, and we've gained no new info
-    bool didsomething = false;
-    if (val) return didsomething;
+    bool did_something = false;
 
-    // TODO: make sure I don't overwrite a 'didsomething' that's already true
-    didsomething = eliminateRow();
-    didsomething = eliminateColumn();
-    didsomething = eliminateSquare();
+    // if this box's final value is already set, no need to run function, and we've gained no new info
+    if (val) return did_something;
+
+    // scan row, column, and square and eliminate possible values
+    if (eliminateRow())
+        did_something = true;
+    if (eliminateColumn())
+        did_something = true;
+    if (eliminateSquare())
+        did_something = true;
+
+    /* TODO
+    if one of the entries in a box's possible_value isn't in any of the other possible_value arrays for its row
+        set that box's val to that entry
+    same for column and square
+
+    if we've called eliminate() on every box and haven't gained any new info, we're stuck
+        find the box with the least number of possible values and guess, then continue to iterate
+        if we end up with a valid solution, celebrate
+        if not, backtrack to the guess, make a different guess, and try again
+    */
 
     // see if we're down to one possible value
-    int count = 0;
+    int remaining_possible_values = 0;
     int maybeval;
     for (int i=1; i < 10; ++i)
     {
         if (possible_value[i])
         {
-            ++count;
+            ++remaining_possible_values;
             maybeval = i;
         }
     }
-
-    if (count == 1) // only one possible value left
+    if (remaining_possible_values == 1) // only one possible value left
     {
         val = maybeval;
-        didsomething = true;
+        did_something = true;
         #ifdef WINDOWS
             system ( "CLS" );
         #else
@@ -48,17 +62,17 @@ bool SudokuBox::eliminate(float sleep_interval)
         board->printBoard(r, c);
         usleep(1000 * 1000 * sleep_interval); // in microseconds, 1000 * 1000 = 1 second
     }
-    else if (count == 0)
+    else if (remaining_possible_values == 0)
     {
         cerr << "no possible values, something's wrong\n";
         return false;
     }
-    return didsomething;
+    return did_something;
 }
 
 bool SudokuBox::eliminateRow()
 {
-    bool didsomething = false;
+    bool did_something = false;
     for (int i=0; i<9; ++i)
     {
         if (i == c)
@@ -68,16 +82,16 @@ bool SudokuBox::eliminateRow()
         if (temp != 0 && possible_value[temp])
         {
             possible_value[temp] = 0;
-            didsomething = true;
+            did_something = true;
             // cerr << "ROW ELIMINATED " << temp << " FOR " << r << "," << c << endl;
         }
     }
-    return didsomething;
+    return did_something;
 }
 
 bool SudokuBox::eliminateColumn()
 {
-    bool didsomething = false;
+    bool did_something = false;
     for (int i=0; i<9; ++i)
     {
         if (i == r)
@@ -87,17 +101,17 @@ bool SudokuBox::eliminateColumn()
         if (temp != 0 && possible_value[temp])
         {
             possible_value[temp] = 0;
-            didsomething = true;
+            did_something = true;
             // cerr << "COL ELIMINATED " << temp << " FOR " << r << "," << c << endl;
         }
     }
 
-    return didsomething;
+    return did_something;
 }
 
 bool SudokuBox::eliminateSquare()
 {
-    bool didsomething = false;
+    bool did_something = false;
     int r_upper_left = r - r % 3;
     int c_upper_left = c - c % 3;
     for (int i = r_upper_left; i < r_upper_left + 3; ++i)
@@ -111,12 +125,12 @@ bool SudokuBox::eliminateSquare()
             if (temp != 0 && possible_value[temp])
             {
                 possible_value[temp] = 0;
-                didsomething = true;
+                did_something = true;
             // cerr << "SQU ELIMINATED " << temp << " FOR " << r << "," << c << endl;
             }
         }
     }
-    return didsomething;
+    return did_something;
 }
 
 int SudokuBox::getValue() const
@@ -153,9 +167,3 @@ void SudokuBox::printPossibleValues()
     }
     cerr << endl;
 }
-
-/*
-    for eliminate: eliminate things from possible_value if that box's square,row,or column already has a box with that val
-                   if one of the entries in a box's possible_value isn't in any of the other possible_value arrays for its row, set that val to that entry
-                       same for column and square
-*/
