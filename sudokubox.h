@@ -7,7 +7,7 @@ class SudokuBox
 {
     public:
         SudokuBox();
-        bool eliminate();
+        bool eliminate(float sleep_interval = 0);
         bool eliminateRow();
         bool eliminateColumn();
         bool eliminateSquare();

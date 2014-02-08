@@ -13,7 +13,7 @@ SudokuBox::SudokuBox()
         possible_value[i] = 1;
 }
 
-bool SudokuBox::eliminate()
+bool SudokuBox::eliminate(float sleep_interval)
 {
     // if this box's final value is already set, no need to run function, and we've gained no new info
     bool didsomething = false;
@@ -46,7 +46,7 @@ bool SudokuBox::eliminate()
             system ("clear");
         #endif
         board->printBoard(r, c);
-        usleep(1000 * 1000 * .5); // in microseconds, 1000 * 1000 = 1 second
+        usleep(1000 * 1000 * sleep_interval); // in microseconds, 1000 * 1000 = 1 second
     }
     else if (count == 0)
     {
