@@ -7,6 +7,7 @@ class SudokuBoard
 {
     public:
         SudokuBoard(int initial[][9]);
+        ~SudokuBoard();
         bool isDone() const;
         bool isValid() const;
         void printBoard(int r, int c) const;

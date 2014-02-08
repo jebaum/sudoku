@@ -23,6 +23,14 @@ SudokuBoard::SudokuBoard(int initial[][9])
     }
 }
 
+SudokuBoard::~SudokuBoard()
+{
+    for (int i=0; i<9; ++i)
+        delete [] board[i];
+
+    delete [] board;
+}
+
 bool SudokuBoard::isDone() const
 {
     for (int i=0; i<9; ++i)
