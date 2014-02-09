@@ -11,3 +11,12 @@ tested on linux, no idea if clearing the screen will work properly in windows
 Example: `./sudoku 2 .5`
 
 if nothing (or the value 0) is passed as the second parameter, the puzzle will probably solve instantly and you won't get to watch it fill in values slowly. this is good for if you hate fun or cool things.
+
+
+## TODO
+ * combine the eliminate and lastpossible functions, currently there's lots of repeated loops
+
+ * have solver work on a copy of the gameboard instead of modifying the original
+
+ * all the todo markers in the files
+
