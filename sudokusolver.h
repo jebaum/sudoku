@@ -16,6 +16,7 @@ class SudokuSolver
         bool scanKnownValues(SudokuBox* box);
         bool isFilled() const;
         bool isValid() const;
+        bool allDistinct(SudokuBox** box, const int size) const;
 
         SudokuBoard* board;
 };

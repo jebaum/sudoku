@@ -91,38 +91,44 @@ bool SudokuSolver::isFilled() const
 
 bool SudokuSolver::isValid() const
 {
-    // check no duplicate values in row
-    for (int r=0; r<9; ++r)
+    bool valid_solution = true;
+    // check no duplicate values in rows or columns
+    for (int i=0; i<9; ++i)
     {
-        bool taken[10] = {false};
-        for (int c=0; c<9; ++c)
+        SudokuBox** row    = board->getRow(board->getBox(i, 0));
+        SudokuBox** column = board->getColumn(board->getBox(0, i));
+        if (! allDistinct(row, 9) || ! allDistinct(column, 9))
+            valid_solution = false;
+
+        delete [] column;
+        delete [] row;
+    }
+
+    for (int r=0; r<9; r+=3)
+    {
+        for (int c=0; c<9; c+=3)
         {
-            int box_value = board->getBox(r,c)->getValue();
-            if (taken[box_value])
-            {
-                return false;
-            }
-            taken[box_value] = true;
+            SudokuBox** square = board->getSquare(board->getBox(r, c));
+            if (! allDistinct(square, 9))
+                valid_solution = false;
+
+            delete [] square;
         }
     }
 
-    // check no duplicate values in column
-    for (int c=0; c<9; ++c)
+    return valid_solution;
+}
+
+bool SudokuSolver::allDistinct(SudokuBox** box, const int size) const
+{
+    bool taken[10] = {false};
+    for (int i=0; i<size; ++i)
     {
-        bool taken[10] = {false};
-        for (int r=0; r<9; ++r)
-        {
-            int box_value = board->getBox(r,c)->getValue();
-            if (taken[box_value])
-            {
-                return false;
-            }
-            taken[box_value] = true;
-        }
+        int current_value = box[i]->getValue();
+        if (taken[current_value]) // we already found a box with this value
+            return false;
+        taken[current_value] = true;
     }
-
-    // TODO check no duplicate values in square
-
     return true;
 }
 

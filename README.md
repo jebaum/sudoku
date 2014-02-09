@@ -14,8 +14,6 @@ if nothing (or the value 0) is passed as the second parameter, the puzzle will p
 
 
 ## TODO
- * combine the eliminate and lastpossible functions, currently there's lots of repeated loops
-
  * have solver work on a copy of the gameboard instead of modifying the original
 
  * all the todo markers in the files
