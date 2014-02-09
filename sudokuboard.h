@@ -9,10 +9,6 @@ class SudokuBoard
         SudokuBoard(int initial[][9]);
         ~SudokuBoard();
 
-        // core logic
-        bool isDone() const;
-        bool isValid() const; // TODO: implement this
-
         // accessors
         SudokuBox* getBox(const int r, const int c) const;
 

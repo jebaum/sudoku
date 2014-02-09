@@ -31,21 +31,6 @@ SudokuBoard::~SudokuBoard()
     delete [] board;
 }
 
-bool SudokuBoard::isDone() const
-{
-    for (int i=0; i<9; ++i)
-        for (int j=0; j<9; ++j)
-            if (!board[i][j].getValue())
-                return false;
-
-    return true;
-}
-
-bool SudokuBoard::isValid() const
-{
-    return true;
-}
-
 SudokuBox* SudokuBoard::getBox(const int r, const int c) const
 {
     return &board[r][c];
