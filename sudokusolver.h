@@ -10,18 +10,16 @@ class SudokuSolver
         SudokuSolver(SudokuBoard* gameboard);
 
         // core logic
-        void solve(float sleep_interval = 0);
+        void solve(float sleep_interval = 0); // TODO take over eliminate functionality? no double wrapping
 
     private:
-        bool eliminate(const int r, const int c, const float sleep_interval = 0);
-        bool eliminateRow(SudokuBox* box);
-        bool eliminateColumn(SudokuBox* box);
-        bool eliminateSquare(SudokuBox* box);
+        bool eliminate(const int r, const int c, const float sleep_interval = 0); // TODO better name for this
+        bool scanKnownValues(SudokuBox* box);
         bool checkLastPossibleRow(SudokuBox* box);
         bool checkLastPossibleColumn(SudokuBox* box);
         bool checkLastPossibleSquare(SudokuBox* box);
         bool isFilled() const;
-        bool isValid() const; // TODO: implement this
+        bool isValid() const;
 
         SudokuBoard* board;
 };

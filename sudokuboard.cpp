@@ -35,6 +35,59 @@ SudokuBox* SudokuBoard::getBox(const int r, const int c) const
     return &board[r][c];
 }
 
+SudokuBox** SudokuBoard::getRowsOtherBoxes(SudokuBox* box) const
+{
+    SudokuBox** boxes = new SudokuBox*[8];
+    int index = 0;
+    int r = box->getRow();
+    int c = box->getColumn();
+
+    for (int i=0; i<9; ++i)
+    {
+        if (i == c)
+            continue; // don't add self
+        boxes[index++] = getBox(r, i);
+    }
+    return boxes;
+}
+
+SudokuBox** SudokuBoard::getColumnsOtherBoxes(SudokuBox* box) const
+{
+    SudokuBox** boxes = new SudokuBox*[8];
+    int index = 0;
+    int r = box->getRow();
+    int c = box->getColumn();
+
+    for (int i=0; i<9; ++i)
+    {
+        if (i == r)
+            continue; // don't add self
+        boxes[index++] = getBox(i, c);
+    }
+    return boxes;
+}
+
+SudokuBox** SudokuBoard::getSquaresOtherBoxes(SudokuBox* box) const
+{
+    SudokuBox** boxes = new SudokuBox*[8];
+    int index = 0;
+    int r = box->getRow();
+    int c = box->getColumn();
+    int r_upper_left = r - r % 3;
+    int c_upper_left = c - c % 3;
+    for (int i = r_upper_left; i < r_upper_left + 3; ++i)
+    {
+        for (int j = c_upper_left; j < c_upper_left + 3; ++j)
+        {
+            if (i == r && j == c) // don't add self
+                continue;
+            boxes[index++] = getBox(i, j);
+        }
+    }
+
+    return boxes;
+}
+
 void SudokuBoard::printBoard(int r, int c) const
 {
 

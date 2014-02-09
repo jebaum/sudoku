@@ -91,11 +91,7 @@ bool SudokuSolver::eliminate(const int r, const int c, float sleep_interval)
     if (box->getValue()) return made_progress;
 
     // scan row, column, and square and eliminate possible values
-    if (eliminateRow(box))
-        made_progress = true;
-    if (eliminateColumn(box))
-        made_progress = true;
-    if (eliminateSquare(box))
+    if (scanKnownValues(box))
         made_progress = true;
     if (checkLastPossibleRow(box))
         made_progress = true;
@@ -141,18 +137,37 @@ bool SudokuSolver::eliminate(const int r, const int c, float sleep_interval)
         cerr << "no possible values, something's wrong\n";
         return false;
     }
+    else
+    {
+        box->printPossibleValues();
+    }
     return made_progress;
 }
 
-bool SudokuSolver::eliminateRow(SudokuBox* box)
+bool SudokuSolver::scanKnownValues(SudokuBox* box)
 {
     bool made_progress = false;
-    for (int i=0; i<9; ++i)
-    {
-        if (i == box->getColumn())
-            continue; // don't compare against self
+    SudokuBox** same_row_boxes    = board->getRowsOtherBoxes(box);
+    SudokuBox** same_column_boxes = board->getColumnsOtherBoxes(box);
+    SudokuBox** same_square_boxes = board->getSquaresOtherBoxes(box);
 
-        int taken_value = board->getBox(box->getRow(), i)->getValue();
+    for (int i=0; i<8; ++i)
+    {
+        int taken_value = same_row_boxes[i]->getValue();
+        if (taken_value != 0 && box->isPossibleValue(taken_value))
+        {
+            box->setPossibleValue(taken_value, 0);
+            made_progress = true;
+            // cerr << "ROW ELIMINATED " << taken_value << " FOR " << r << "," << c << endl;
+        }
+        taken_value = same_column_boxes[i]->getValue();
+        if (taken_value != 0 && box->isPossibleValue(taken_value))
+        {
+            box->setPossibleValue(taken_value, 0);
+            made_progress = true;
+            // cerr << "ROW ELIMINATED " << taken_value << " FOR " << r << "," << c << endl;
+        }
+        taken_value = same_square_boxes[i]->getValue();
         if (taken_value != 0 && box->isPossibleValue(taken_value))
         {
             box->setPossibleValue(taken_value, 0);
@@ -160,52 +175,10 @@ bool SudokuSolver::eliminateRow(SudokuBox* box)
             // cerr << "ROW ELIMINATED " << taken_value << " FOR " << r << "," << c << endl;
         }
     }
-    return made_progress;
-}
 
-bool SudokuSolver::eliminateColumn(SudokuBox* box)
-{
-    bool made_progress = false;
-    for (int i=0; i<9; ++i)
-    {
-        if (i == box->getRow())
-            continue; // don't compare against self
-
-        int taken_value = board->getBox(i, box->getColumn())->getValue();
-        if (taken_value != 0 && box->isPossibleValue(taken_value))
-        {
-            box->setPossibleValue(taken_value, 0);
-            made_progress = true;
-            // cerr << "COL ELIMINATED " << taken_value << " FOR " << r << "," << c << endl;
-        }
-    }
-
-    return made_progress;
-}
-
-bool SudokuSolver::eliminateSquare(SudokuBox* box)
-{
-    bool made_progress = false;
-    int r = box->getRow();
-    int c = box->getColumn();
-    int r_upper_left = r - r % 3;
-    int c_upper_left = c - c % 3;
-    for (int i = r_upper_left; i < r_upper_left + 3; ++i)
-    {
-        for (int j = c_upper_left; j < c_upper_left + 3; ++j)
-        {
-            if (i == r && j == c) // don't compare against self
-                continue;
-
-            int taken_value = board->getBox(i, j)->getValue();
-            if (taken_value != 0 && box->isPossibleValue(taken_value))
-            {
-                box->setPossibleValue(taken_value, 0);
-                made_progress = true;
-            // cerr << "SQU ELIMINATED " << taken_value << " FOR " << r << "," << c << endl;
-            }
-        }
-    }
+    delete [] same_row_boxes;
+    delete [] same_column_boxes;
+    delete [] same_square_boxes;
     return made_progress;
 }
 
