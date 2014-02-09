@@ -98,7 +98,7 @@ bool SudokuSolver::eliminate(const int r, const int c, float sleep_interval)
     if (checkLastPossibleColumn(box))
         made_progress = true;
 
-    /* TODO
+    /* TODO more solving logic
     implement the techniques at this link:
         http://www.sudokuoftheday.com/pages/techniques-overview.php
 
@@ -264,7 +264,7 @@ bool SudokuSolver::checkLastPossibleColumn(SudokuBox* box)
 
 bool SudokuSolver::checkLastPossibleSquare(SudokuBox* box)
 {
-    // TODO implement this
+    // TODO implement checkLastPossibleSquare
     bool made_progress = false;
 
     return made_progress;
