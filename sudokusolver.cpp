@@ -103,14 +103,14 @@ bool SudokuSolver::eliminate(const int r, const int c, float sleep_interval)
         made_progress = true;
 
     /* TODO
-    if one of the entries in a box's possible_value isn't in any of the other possible_value arrays for its row
-        set that box's val to that entry
-    same for column and square
+    implement the techniques at this link:
+        http://www.sudokuoftheday.com/pages/techniques-overview.php
 
-    if we've called eliminate() on every box and haven't gained any new info, we're stuck
-        find the box with the least number of possible values and guess, then continue to iterate
-        if we end up with a valid solution, celebrate
-        if not, backtrack to the guess, make a different guess, and try again
+    guess and backtrack
+        if we've called eliminate() on every box and haven't gained any new info, we're stuck
+            find the box with the least number of possible values and guess, then continue to iterate
+            if we end up with a valid solution, celebrate
+            if not, backtrack to the guess, make a different guess, and try again
     */
 
     // see if we're down to one possible value
@@ -291,6 +291,7 @@ bool SudokuSolver::checkLastPossibleColumn(SudokuBox* box)
 
 bool SudokuSolver::checkLastPossibleSquare(SudokuBox* box)
 {
+    // TODO implement this
     bool made_progress = false;
 
     return made_progress;
