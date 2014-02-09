@@ -63,8 +63,5 @@ int main(int argc, char** argv)
     delete myboard;
     delete solver;
 
-    cout << "sup";
-
     return 0;
-
 }
