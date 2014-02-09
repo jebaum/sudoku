@@ -79,6 +79,43 @@ void SudokuSolver::solve(const float sleep_interval)
     return;
 }
 
+bool SudokuSolver::scanKnownValues(SudokuBox* box)
+{
+    bool made_progress = false;
+    SudokuBox** same_row_boxes    = board->getRow(box, true);
+    SudokuBox** same_column_boxes = board->getColumn(box, true);
+    SudokuBox** same_square_boxes = board->getSquare(box, true);
+
+    for (int i=0; i<8; ++i)
+    {
+        int taken_value = same_row_boxes[i]->getValue();
+        if (taken_value != 0 && box->isPossibleValue(taken_value))
+        {
+            box->setPossibleValue(taken_value, 0);
+            made_progress = true;
+        }
+
+        taken_value = same_column_boxes[i]->getValue();
+        if (taken_value != 0 && box->isPossibleValue(taken_value))
+        {
+            box->setPossibleValue(taken_value, 0);
+            made_progress = true;
+        }
+
+        taken_value = same_square_boxes[i]->getValue();
+        if (taken_value != 0 && box->isPossibleValue(taken_value))
+        {
+            box->setPossibleValue(taken_value, 0);
+            made_progress = true;
+        }
+    }
+
+    delete [] same_row_boxes;
+    delete [] same_column_boxes;
+    delete [] same_square_boxes;
+    return made_progress;
+}
+
 bool SudokuSolver::isFilled() const
 {
     for (int i=0; i<9; ++i)
@@ -130,42 +167,5 @@ bool SudokuSolver::allDistinct(SudokuBox** box, const int size) const
         taken[current_value] = true;
     }
     return true;
-}
-
-bool SudokuSolver::scanKnownValues(SudokuBox* box)
-{
-    bool made_progress = false;
-    SudokuBox** same_row_boxes    = board->getRow(box, true);
-    SudokuBox** same_column_boxes = board->getColumn(box, true);
-    SudokuBox** same_square_boxes = board->getSquare(box, true);
-
-    for (int i=0; i<8; ++i)
-    {
-        int taken_value = same_row_boxes[i]->getValue();
-        if (taken_value != 0 && box->isPossibleValue(taken_value))
-        {
-            box->setPossibleValue(taken_value, 0);
-            made_progress = true;
-        }
-
-        taken_value = same_column_boxes[i]->getValue();
-        if (taken_value != 0 && box->isPossibleValue(taken_value))
-        {
-            box->setPossibleValue(taken_value, 0);
-            made_progress = true;
-        }
-
-        taken_value = same_square_boxes[i]->getValue();
-        if (taken_value != 0 && box->isPossibleValue(taken_value))
-        {
-            box->setPossibleValue(taken_value, 0);
-            made_progress = true;
-        }
-    }
-
-    delete [] same_row_boxes;
-    delete [] same_column_boxes;
-    delete [] same_square_boxes;
-    return made_progress;
 }
 
