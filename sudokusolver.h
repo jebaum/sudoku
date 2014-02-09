@@ -11,14 +11,14 @@ class SudokuSolver
 
         // core logic
         void solve(float sleep_interval = 0);
-        bool isFilled() const;
-        bool isValid() const; // TODO: implement this
 
     private:
         bool eliminate(const int r, const int c, const float sleep_interval = 0);
         bool eliminateRow(SudokuBox* box);
         bool eliminateColumn(SudokuBox* box);
         bool eliminateSquare(SudokuBox* box);
+        bool isFilled() const;
+        bool isValid() const; // TODO: implement this
 
         SudokuBoard* board;
 };

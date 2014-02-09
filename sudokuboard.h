@@ -15,6 +15,7 @@ class SudokuBoard
         // helpers
         void printBoard(int r, int c) const;
         void printBoard() const;
+
     private:
         SudokuBox** board;
 };
