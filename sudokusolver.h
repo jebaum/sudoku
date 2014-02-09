@@ -10,7 +10,7 @@ class SudokuSolver
         SudokuSolver(SudokuBoard* gameboard);
 
         // core logic
-        void solve(float sleep_interval = 0); // TODO take over eliminate functionality? no double wrapping
+        void solve(const float sleep_interval = 0); // TODO take over eliminate functionality? no double wrapping
 
     private:
         bool eliminate(const int r, const int c, const float sleep_interval = 0); // TODO better name for this

@@ -35,7 +35,7 @@ SudokuBox* SudokuBoard::getBox(const int r, const int c) const
     return &board[r][c];
 }
 
-SudokuBox** SudokuBoard::getRow(SudokuBox* box, bool exclude) const
+SudokuBox** SudokuBoard::getRow(const SudokuBox* box, const bool exclude) const
 {
     int size = 8 + (exclude ? 0 : 1);
     SudokuBox** boxes = new SudokuBox*[size];
@@ -52,7 +52,7 @@ SudokuBox** SudokuBoard::getRow(SudokuBox* box, bool exclude) const
     return boxes;
 }
 
-SudokuBox** SudokuBoard::getColumn(SudokuBox* box, bool exclude) const
+SudokuBox** SudokuBoard::getColumn(const SudokuBox* box, const bool exclude) const
 {
     int size = 8 + (exclude ? 0 : 1);
     SudokuBox** boxes = new SudokuBox*[size];
@@ -69,7 +69,7 @@ SudokuBox** SudokuBoard::getColumn(SudokuBox* box, bool exclude) const
     return boxes;
 }
 
-SudokuBox** SudokuBoard::getSquare(SudokuBox* box, bool exclude) const
+SudokuBox** SudokuBoard::getSquare(const SudokuBox* box, const bool exclude) const
 {
     int size = 8 + (exclude ? 0 : 1);
     SudokuBox** boxes = new SudokuBox*[size];
@@ -91,7 +91,7 @@ SudokuBox** SudokuBoard::getSquare(SudokuBox* box, bool exclude) const
     return boxes;
 }
 
-void SudokuBoard::printBoard(int r, int c) const
+void SudokuBoard::printBoard(const int r, const int c) const
 {
 
     cout << endl;

@@ -12,7 +12,7 @@ SudokuSolver::SudokuSolver(SudokuBoard* gameboard)
  : board(gameboard)
 { }
 
-void SudokuSolver::solve(float sleep_interval)
+void SudokuSolver::solve(const float sleep_interval)
 {
     bool made_progress = false;
     while (! isFilled())
