@@ -12,7 +12,7 @@ class SudokuBox
         int  getRow() const;
         int  getColumn() const;
         int  getValue() const;
-        bool getPossibleValue(const int value) const;
+        bool isPossibleValue(const int value) const;
 
         // mutators
         void setValue(const int value);

@@ -82,7 +82,7 @@ bool SudokuSolver::eliminate(const int r, const int c, float sleep_interval)
     int maybeval;
     for (int i=1; i < 10; ++i)
     {
-        if (box->getPossibleValue(i))
+        if (box->isPossibleValue(i))
         {
             ++remaining_possible_values;
             maybeval = i;
@@ -116,12 +116,12 @@ bool SudokuSolver::eliminateRow(SudokuBox* box)
         if (i == box->getColumn())
             continue; // don't compare against self
 
-        int temp = board->getBox(box->getRow(), i)->getValue();
-        if (temp != 0 && box->getPossibleValue(temp))
+        int taken_value = board->getBox(box->getRow(), i)->getValue();
+        if (taken_value != 0 && box->isPossibleValue(taken_value))
         {
-            box->setPossibleValue(temp, 0);
+            box->setPossibleValue(taken_value, 0);
             made_progress = true;
-            // cerr << "ROW ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+            // cerr << "ROW ELIMINATED " << taken_value << " FOR " << r << "," << c << endl;
         }
     }
     return made_progress;
@@ -135,12 +135,12 @@ bool SudokuSolver::eliminateColumn(SudokuBox* box)
         if (i == box->getRow())
             continue; // don't compare against self
 
-        int temp = board->getBox(i, box->getColumn())->getValue();
-        if (temp != 0 && box->getPossibleValue(temp))
+        int taken_value = board->getBox(i, box->getColumn())->getValue();
+        if (taken_value != 0 && box->isPossibleValue(taken_value))
         {
-            box->setPossibleValue(temp, 0);
+            box->setPossibleValue(taken_value, 0);
             made_progress = true;
-            // cerr << "COL ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+            // cerr << "COL ELIMINATED " << taken_value << " FOR " << r << "," << c << endl;
         }
     }
 
@@ -161,12 +161,12 @@ bool SudokuSolver::eliminateSquare(SudokuBox* box)
             if (i == r && j == c) // don't compare against self
                 continue;
 
-            int temp = board->getBox(i, j)->getValue();
-            if (temp != 0 && box->getPossibleValue(temp))
+            int taken_value = board->getBox(i, j)->getValue();
+            if (taken_value != 0 && box->isPossibleValue(taken_value))
             {
-                box->setPossibleValue(temp, 0);
+                box->setPossibleValue(taken_value, 0);
                 made_progress = true;
-            // cerr << "SQU ELIMINATED " << temp << " FOR " << r << "," << c << endl;
+            // cerr << "SQU ELIMINATED " << taken_value << " FOR " << r << "," << c << endl;
             }
         }
     }

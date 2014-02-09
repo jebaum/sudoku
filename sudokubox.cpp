@@ -28,7 +28,7 @@ int SudokuBox::getValue() const
     return val;
 }
 
-bool SudokuBox::getPossibleValue(const int value) const
+bool SudokuBox::isPossibleValue(const int value) const
 {
     return possible_value[value];
 }
