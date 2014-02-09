@@ -47,6 +47,38 @@ bool SudokuSolver::isFilled() const
 
 bool SudokuSolver::isValid() const
 {
+    // check no duplicate values in row
+    for (int r=0; r<9; ++r)
+    {
+        bool taken[10] = {false};
+        for (int c=0; c<9; ++c)
+        {
+            int box_value = board->getBox(r,c)->getValue();
+            if (taken[box_value])
+            {
+                return false;
+            }
+            taken[box_value] = true;
+        }
+    }
+
+    // check no duplicate values in column
+    for (int c=0; c<9; ++c)
+    {
+        bool taken[10] = {false};
+        for (int r=0; r<9; ++r)
+        {
+            int box_value = board->getBox(r,c)->getValue();
+            if (taken[box_value])
+            {
+                return false;
+            }
+            taken[box_value] = true;
+        }
+    }
+
+    // TODO check no duplicate values in square
+
     return true;
 }
 
