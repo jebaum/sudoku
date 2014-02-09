@@ -17,6 +17,9 @@ class SudokuSolver
         bool eliminateRow(SudokuBox* box);
         bool eliminateColumn(SudokuBox* box);
         bool eliminateSquare(SudokuBox* box);
+        bool checkLastPossibleRow(SudokuBox* box);
+        bool checkLastPossibleColumn(SudokuBox* box);
+        bool checkLastPossibleSquare(SudokuBox* box);
         bool isFilled() const;
         bool isValid() const; // TODO: implement this
 
