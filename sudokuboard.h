@@ -12,9 +12,10 @@ class SudokuBoard
         // accessors
         SudokuBox* getBox(const int r, const int c) const;
         // these three functions return a pointer that the caller must delete []
-        SudokuBox** getRowsOtherBoxes(SudokuBox* box) const;
-        SudokuBox** getColumnsOtherBoxes(SudokuBox* box) const;
-        SudokuBox** getSquaresOtherBoxes(SudokuBox* box) const;
+        // if exclude is true, the box pointer passed as the first parameter isn't included in the array
+        SudokuBox** getRow(SudokuBox* box, bool exclude = false) const;
+        SudokuBox** getColumn(SudokuBox* box, bool exclude = false) const;
+        SudokuBox** getSquare(SudokuBox* box, bool exclude = false) const;
 
         // helpers
         void printBoard(int r, int c) const;

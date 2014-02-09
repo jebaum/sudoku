@@ -35,41 +35,44 @@ SudokuBox* SudokuBoard::getBox(const int r, const int c) const
     return &board[r][c];
 }
 
-SudokuBox** SudokuBoard::getRowsOtherBoxes(SudokuBox* box) const
+SudokuBox** SudokuBoard::getRow(SudokuBox* box, bool exclude) const
 {
-    SudokuBox** boxes = new SudokuBox*[8];
+    int size = 8 + (exclude ? 0 : 1);
+    SudokuBox** boxes = new SudokuBox*[size];
     int index = 0;
     int r = box->getRow();
     int c = box->getColumn();
 
     for (int i=0; i<9; ++i)
     {
-        if (i == c)
-            continue; // don't add self
+        if (i == c && exclude)
+            continue;
         boxes[index++] = getBox(r, i);
     }
     return boxes;
 }
 
-SudokuBox** SudokuBoard::getColumnsOtherBoxes(SudokuBox* box) const
+SudokuBox** SudokuBoard::getColumn(SudokuBox* box, bool exclude) const
 {
-    SudokuBox** boxes = new SudokuBox*[8];
+    int size = 8 + (exclude ? 0 : 1);
+    SudokuBox** boxes = new SudokuBox*[size];
     int index = 0;
     int r = box->getRow();
     int c = box->getColumn();
 
     for (int i=0; i<9; ++i)
     {
-        if (i == r)
-            continue; // don't add self
+        if (i == r && exclude)
+            continue;
         boxes[index++] = getBox(i, c);
     }
     return boxes;
 }
 
-SudokuBox** SudokuBoard::getSquaresOtherBoxes(SudokuBox* box) const
+SudokuBox** SudokuBoard::getSquare(SudokuBox* box, bool exclude) const
 {
-    SudokuBox** boxes = new SudokuBox*[8];
+    int size = 8 + (exclude ? 0 : 1);
+    SudokuBox** boxes = new SudokuBox*[size];
     int index = 0;
     int r = box->getRow();
     int c = box->getColumn();
@@ -79,7 +82,7 @@ SudokuBox** SudokuBoard::getSquaresOtherBoxes(SudokuBox* box) const
     {
         for (int j = c_upper_left; j < c_upper_left + 3; ++j)
         {
-            if (i == r && j == c) // don't add self
+            if (i == r && j == c && exclude)
                 continue;
             boxes[index++] = getBox(i, j);
         }

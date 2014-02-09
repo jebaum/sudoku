@@ -147,9 +147,9 @@ bool SudokuSolver::eliminate(const int r, const int c, float sleep_interval)
 bool SudokuSolver::scanKnownValues(SudokuBox* box)
 {
     bool made_progress = false;
-    SudokuBox** same_row_boxes    = board->getRowsOtherBoxes(box);
-    SudokuBox** same_column_boxes = board->getColumnsOtherBoxes(box);
-    SudokuBox** same_square_boxes = board->getSquaresOtherBoxes(box);
+    SudokuBox** same_row_boxes    = board->getRow(box, true);
+    SudokuBox** same_column_boxes = board->getColumn(box, true);
+    SudokuBox** same_square_boxes = board->getSquare(box, true);
 
     for (int i=0; i<8; ++i)
     {
