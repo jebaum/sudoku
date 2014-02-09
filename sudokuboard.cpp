@@ -49,9 +49,9 @@ void SudokuBoard::printBoard(int r, int c) const
             if (i == r && j == c)
                 cout << "\033[1;31m";
 
-            // TODO clean up this logic
             char val_to_print = '0' + board[i][j].getValue();
-            if (val_to_print == '0') val_to_print = ' ';
+            if (val_to_print == '0')
+                val_to_print = ' ';
 
             cout << val_to_print << "\033[0m" << ((j+1)%3 ? " │ " : " ┃ ");
         }
