@@ -15,9 +15,6 @@ class SudokuSolver
     private:
         bool eliminate(const int r, const int c, const float sleep_interval = 0); // TODO better name for this
         bool scanKnownValues(SudokuBox* box);
-        bool checkLastPossibleRow(SudokuBox* box);
-        bool checkLastPossibleColumn(SudokuBox* box);
-        bool checkLastPossibleSquare(SudokuBox* box);
         bool isFilled() const;
         bool isValid() const;
 

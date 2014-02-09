@@ -93,10 +93,6 @@ bool SudokuSolver::eliminate(const int r, const int c, float sleep_interval)
     // scan row, column, and square and eliminate possible values
     if (scanKnownValues(box))
         made_progress = true;
-    if (checkLastPossibleRow(box))
-        made_progress = true;
-    if (checkLastPossibleColumn(box))
-        made_progress = true;
 
     /* TODO more solving logic
     implement the techniques at this link:
@@ -182,90 +178,3 @@ bool SudokuSolver::scanKnownValues(SudokuBox* box)
     return made_progress;
 }
 
-bool SudokuSolver::checkLastPossibleRow(SudokuBox* box)
-{
-    bool made_progress = false;
-    bool only_in_current[10];
-    for (int i=0; i<10; ++i)
-        only_in_current[i] = box->isPossibleValue(i);
-
-    for (int c=0; c<9; ++c)
-    {
-        if (c == box->getColumn())
-            continue; // don't compare against self
-
-        for (int i=1; i<10; ++i)
-        {
-            if (board->getBox(box->getRow(), c)->isPossibleValue(i))
-            {
-                only_in_current[i] = false;
-            }
-        }
-    }
-
-    int unique_possible_values = 0;
-    int maybeval;
-    for (int i=1; i<10; ++i)
-    {
-        if (only_in_current[i])
-        {
-            ++unique_possible_values;
-            maybeval = i;
-        }
-    }
-    if (unique_possible_values == 1)
-    {
-        box->setValue(maybeval);
-        made_progress = true;
-    }
-
-    return made_progress;
-}
-
-bool SudokuSolver::checkLastPossibleColumn(SudokuBox* box)
-{
-    bool made_progress = false;
-    bool only_in_current[10];
-    for (int i=0; i<10; ++i)
-        only_in_current[i] = box->isPossibleValue(i);
-
-    for (int r=0; r<9; ++r)
-    {
-        if (r == box->getRow())
-            continue; // don't compare against self
-
-        for (int i=1; i<10; ++i)
-        {
-            if (board->getBox(r, box->getColumn())->isPossibleValue(i))
-            {
-                only_in_current[i] = false;
-            }
-        }
-    }
-
-    int unique_possible_values = 0;
-    int maybeval;
-    for (int i=1; i<10; ++i)
-    {
-        if (only_in_current[i])
-        {
-            ++unique_possible_values;
-            maybeval = i;
-        }
-    }
-    if (unique_possible_values == 1)
-    {
-        box->setValue(maybeval);
-        made_progress = true;
-    }
-
-    return made_progress;
-}
-
-bool SudokuSolver::checkLastPossibleSquare(SudokuBox* box)
-{
-    // TODO implement checkLastPossibleSquare
-    bool made_progress = false;
-
-    return made_progress;
-}
