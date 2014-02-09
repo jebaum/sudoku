@@ -234,7 +234,7 @@ bool SudokuSolver::checkLastPossibleRow(SudokuBox* box)
     int maybeval;
     for (int i=1; i<10; ++i)
     {
-        if (box->isPossibleValue(i))
+        if (only_in_current[i])
         {
             ++unique_possible_values;
             maybeval = i;
@@ -274,7 +274,7 @@ bool SudokuSolver::checkLastPossibleColumn(SudokuBox* box)
     int maybeval;
     for (int i=1; i<10; ++i)
     {
-        if (box->isPossibleValue(i))
+        if (only_in_current[i])
         {
             ++unique_possible_values;
             maybeval = i;
